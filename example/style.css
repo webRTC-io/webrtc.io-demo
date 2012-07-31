@@ -13,27 +13,36 @@ body {
 
 #videos {
   position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 200px;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: #F0F6FB;
 }
 
 #chatbox {
   position: absolute;
-  top: 0;
-  width: 200px;
-  right: 0;
-  bottom: 0;
+  height: 180px;
+  right: 20px;
+  left: 20px;
+  bottom: 0px;
 }
 
 #chatinput {
-  display: block;
-  border: 1px solid black;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
   width: 100%;
-  padding: 7px 3px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border-radius: 8px;
+  border-style:solid;
+  border-width:1px;
 }
 
+#messages {
+  overflow: scroll;
+  height: 100px;
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  border-style:solid;
+  border-width:1px;
+}

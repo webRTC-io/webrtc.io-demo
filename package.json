@@ -1,0 +1,16 @@
+{
+  "name": "MultiWebRTC",
+  "description": "Example of multi user webrtc",
+  "version": "0.0.1-15",
+  "engines": {
+    "node": ">= 0.6.0"
+  },
+  "dependencies": {
+    "socket.io": "x",
+    "express": "2.5.1"
+  },
+  "subdomain": "MultiWebRTC",
+  "scripts": {
+    "start": "server.js"
+  }
+}

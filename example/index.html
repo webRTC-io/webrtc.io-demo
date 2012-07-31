@@ -4,19 +4,34 @@
     <title>Example webrtc.io</title>
     <link type="text/css" href="/style.css" rel="stylesheet"></link>
 
-    <script src="http://localhost/socket.io/socket.io.js"></script>
+    <script src="http://multiwebrtc.nodejitsu.com/socket.io/socket.io.js"></script>
     <script src="/io.js"></script>
+
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-31155783-4']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+
   </head>
   <body onload="init()">
     <div id="videos">
       <video id="you" autoplay></video>
     </div>
     <div id="chatbox">
+      <button id="fullscreen">Enter Full Screen</button>
       <div id="messages">
       </div>
-      <div id="chat">
-        <input id="chatinput" type="text"/>
-      </div>
+      <br>
+      <input id="chatinput" type="text"/>
     </div>
     <script>
       var videos = [];
@@ -50,8 +65,8 @@
       function setWH(video, i) {
         var perRow = getNumPerRow();
         var perColumn = Math.ceil(videos.length / perRow);
-        var width = Math.floor((window.innerWidth - 200) / perRow);
-        var height = Math.floor(window.innerHeight / perColumn);
+        var width = Math.floor((window.innerWidth) / perRow);
+        var height = Math.floor((window.innerHeight - 190) / perColumn);
         console.log(width, height);
         video.width = width;
         video.height = height;
@@ -77,6 +92,7 @@
       }
 
       function initChat() {
+
         var input = document.getElementById("chatinput");
         input.addEventListener('keydown', function(event) {
           var key = event.which || event.keyCode;
@@ -96,16 +112,26 @@
         var messages = document.getElementById('messages');
         msg = sanitize(msg);
         if (color) {
-          msg = '<span style="color: #' + color + ';">' + msg + '</span>';
+          msg = '<span style="color: #' + color + '; padding-left: 15px">' + msg + '</span>';
         } else {
-          msg = "<strong>" + msg + "</strong>";
+          msg = '<strong style="padding-left: 15px">' + msg + '</strong>';
         }
         messages.innerHTML = messages.innerHTML + msg + '<br>';
+        messages.scrollTop = 10000;
       }
 
       function sanitize(msg) {
         return msg.replace(/</g, '&lt;');
       }
+
+      function initFullScreen(){ 
+        var button = document.getElementById("fullscreen");
+        button.addEventListener('click', function(event) {
+          var elem = document.getElementById("videos"); 
+          //show full screen 
+          elem.webkitRequestFullScreen();
+        });
+      } 
 
       function init() {
         rtc.createStream('you', function(stream) {
@@ -114,7 +140,7 @@
           subdivideVideos();
         });
 
-        rtc.connect("http://localhost/");
+        rtc.connect("http://multiwebrtc.nodejitsu.com/");
         rtc.on('add remote stream', function(stream, socketId) {
           console.log("ADDING REMOTE STREAM...");
           var clone = cloneVideo('you', socketId);
@@ -126,6 +152,7 @@
             removeVideo(data);
         });
         initChat();
+        initFullScreen();
       }
       
       function onClose(data) {

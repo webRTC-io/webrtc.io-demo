@@ -1,6 +1,3 @@
-//npm install express@2.5.1 
-
-
 var app = require('express').createServer()
   , io = require('socket.io').listen(app);
 
