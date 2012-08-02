@@ -4,8 +4,8 @@
     <title>Example webrtc.io</title>
     <link type="text/css" href="/style.css" rel="stylesheet"></link>
 
-    <script src="http://multiwebrtc.nodejitsu.com/socket.io/socket.io.js"></script>
-    <script src="/io.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/webrtc.io/webrtc.io.js"></script>
   </head>
   <body onload="init()">
     <div id="videos">
@@ -147,7 +147,9 @@
 
         var room = window.location.hash.slice(1);
 
-        rtc.connect("http://multiwebrtc.nodejitsu.com/", room);
+        //rtc.connect("http://multiwebrtc.nodejitsu.com/", room);
+
+        rtc.connect("http://localhost:8000", room);
 
         rtc.on('add remote stream', function(stream, socketId) {
           console.log("ADDING REMOTE STREAM...");
