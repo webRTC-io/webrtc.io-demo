@@ -14,6 +14,7 @@
     </div>
     <div id="chatbox">
       <button id="fullscreen">Enter Full Screen</button>
+      <button id="newRoom">Create A New Room</button>
       <div id="messages">
       </div>
       <br>
@@ -110,7 +111,7 @@
         return msg.replace(/</g, '&lt;');
       }
 
-      function initFullScreen(){ 
+      function initFullScreen() { 
         var button = document.getElementById("fullscreen");
         button.addEventListener('click', function(event) {
           var elem = document.getElementById("videos"); 
@@ -119,6 +120,24 @@
         });
       } 
 
+      function initNewRoom() {
+        var button = document.getElementById("newRoom");
+
+        button.addEventListener('click', function(event) {
+
+            var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+            var string_length = 8;
+            var randomstring = '';
+            for (var i=0; i<string_length; i++) {
+              var rnum = Math.floor(Math.random() * chars.length);
+              randomstring += chars.substring(rnum,rnum+1);
+            }
+            
+            window.location.hash = randomstring;
+            location.reload();
+        })
+      }
+
       function init() {
         rtc.createStream('you', function(stream) {
           videos.push(document.getElementById('you'));
@@ -126,7 +145,10 @@
           subdivideVideos();
         });
 
-        rtc.connect("http://multiwebrtc.nodejitsu.com/");
+        var room = window.location.hash.slice(1);
+
+        rtc.connect("http://multiwebrtc.nodejitsu.com/", room);
+
         rtc.on('add remote stream', function(stream, socketId) {
           console.log("ADDING REMOTE STREAM...");
           var clone = cloneVideo('you', socketId);
@@ -139,15 +161,13 @@
         });
         initChat();
         initFullScreen();
+        initNewRoom();
       }
       
-      function onClose(data) {
-//        video.parentNode.removeChild(video);
-      }
-
       window.onresize = function(event) {
         subdivideVideos();
       };
+
     </script>
   </body>
 </html>
