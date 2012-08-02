@@ -3,7 +3,7 @@ var io = require('webrtc.io').listen(app);
 
 var colors = {};
 
-app.listen(8000);
+app.listen(80);
 
 app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');

@@ -147,9 +147,7 @@
 
         var room = window.location.hash.slice(1);
 
-        //rtc.connect("http://multiwebrtc.nodejitsu.com/", room);
-
-        rtc.connect("http://localhost:8000", room);
+        rtc.connect("http://multiwebrtc.nodejitsu.com/", room);
 
         rtc.on('add remote stream', function(stream, socketId) {
           console.log("ADDING REMOTE STREAM...");
