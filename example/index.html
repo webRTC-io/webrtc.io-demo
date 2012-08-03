@@ -22,6 +22,8 @@
     </div>
     <script>
       var videos = [];
+      var rooms = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+      var PeerConnection = window.PeerConnection || window.webkitPeerConnection00;
 
       function getNumPerRow() {
         var len = videos.length;
@@ -139,15 +141,19 @@
       }
 
       function init() {
-        rtc.createStream('you', function(stream) {
-          videos.push(document.getElementById('you'));
-          rtc.attachStream(stream, 'you');
-          subdivideVideos();
-        });
+        if(PeerConnection){
+          rtc.createStream('you', function(stream) {
+            videos.push(document.getElementById('you'));
+            rtc.attachStream(stream, 'you');
+            subdivideVideos();
+          });
+        }else {
+          alert('Your browser is not supported or you have to turn on flags. In chrome you go to chrome://flags and turn on Enable PeerConnection remember to restart chrome');
+        }
 
         
         var room = window.location.hash.slice(1);
-        var rooms = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+
         if (room === '') {
             room = Math.floor(Math.random()*rooms.length);
             window.location.hash = room;
