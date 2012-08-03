@@ -3,7 +3,11 @@ var io = require('webrtc.io').listen(app);
 
 var colors = {};
 
-app.listen(80);
+//When connectiong to nodejitsu
+//app.listen(80);
+
+//When using localhost
+app.listen(8000);
 
 app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
