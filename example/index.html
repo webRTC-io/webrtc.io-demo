@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
   <head>
     <title>Example webrtc.io</title>
@@ -145,12 +145,17 @@
           subdivideVideos();
         });
 
+        
         var room = window.location.hash.slice(1);
-
+        var rooms = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+        if (room === '') {
+            room = Math.floor(Math.random()*rooms.length);
+            window.location.hash = room;
+        }
         //When connectiong to nodejitsu
         //rtc.connect("http://multiwebrtc.nodejitsu.com/", room);
 
-        //When using lokalhost
+        //When using localhost
         rtc.connect("http://localhost:8000/", room);
 
         rtc.on('add remote stream', function(stream, socketId) {
@@ -171,7 +176,6 @@
       window.onresize = function(event) {
         subdivideVideos();
       };
-
     </script>
   </body>
 </html>
