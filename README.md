@@ -10,7 +10,7 @@ You can have a look at the demo on http://multiwebrtc.nodejitsu.com
 Run in your terminal
 
 ```bash 
-git colen git@github.com:dennismartensson/webrtc.io-demo.git
+git clone git@github.com:dennismartensson/webrtc.io-demo.git
 ```
 
 ```bash 
@@ -29,7 +29,7 @@ cd example
 node server.js
 ```
 
-Ïn a version of Chrome that have webRTC support.
+In a version of Chrome that have webRTC support.
 
 go to [localhost:8000](http://localhost:8000)
 
