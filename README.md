@@ -9,15 +9,15 @@ You can have a look at the demo on http://multiwebrtc.nodejitsu.com
 
 Run in your terminal
 
-'''bash git colen git@github.com:dennismartensson/webrtc.io-demo.git'''
+```bash git colen git@github.com:dennismartensson/webrtc.io-demo.git```
 
-'''bash cd webrtc.io-demo'''
+```bash cd webrtc.io-demo```
 
-'''bash npm install'''
+```bash npm install```
 
-'''bash cd example'''
+```bash cd example```
 
-'''bash node server.js'''
+```bash node server.js```
 
 Ïn a version of Chrome that have webRTC support.
 
