@@ -46,3 +46,7 @@ body {
   border-style:solid;
   border-width:1px;
 }
+
+.flip {
+-webkit-transform: rotateY(180deg);
+}
