@@ -167,6 +167,7 @@
         rtc.on('add remote stream', function(stream, socketId) {
           console.log("ADDING REMOTE STREAM...");
           var clone = cloneVideo('you', socketId);
+          document.getElementById(clone.id).setAttribute("class", "");
           rtc.attachStream(stream, clone.id);
           subdivideVideos();
         });
