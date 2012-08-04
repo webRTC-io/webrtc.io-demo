@@ -1,35 +1,45 @@
 var app = require('express').createServer();
-var io = require('webrtc.io').listen(app);
+var webRTC = require('webrtc.io').listen(app);
 
 var colors = {};
-var servers = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
-
 
 
 //When connectiong to nodejitsu
 //app.listen(80);
-
 //When using localhost
 app.listen(8000);
 
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 
-app.get('/style.css', function (req, res) {
+app.get('/style.css', function(req, res) {
   res.sendfile(__dirname + '/style.css');
 });
 
 function selectRoom(socket) {
-    for (var room in servers) {
-        console.log('***' + room);
-        if (io.sockets.clients(room).length < 4){
-            socket.emit('send', room);
-        }
-        console.log(io.sockets.clients('' + room));
+  for (var room in servers) {
+    console.log('***' + room);
+    if (io.sockets.clients(room).length < 4) {
+      socket.emit('send', room);
     }
+    console.log(io.sockets.clients('' + room));
+  }
 }
-io.sockets.on('connection', function(socket) {
+
+webRTC.rtc.on('connection', function(rtc) {
+  //Client connected
+
+  rtc.on('send_answer', function() {
+    //answer sent
+  });
+
+  rtc.on('disconnect', function() {
+    //disconnect sent
+  });
+});
+
+webRTC.sockets.on('connection', function(socket) {
   console.log("connection received");
 
   colors[socket.id] = Math.floor(Math.random()* 0xFFFFFF)
@@ -41,5 +51,4 @@ io.sockets.on('connection', function(socket) {
       color: colors[socket.id]
     });
   });
-
 });
