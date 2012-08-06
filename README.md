@@ -10,7 +10,7 @@ You can have a look at the demo on http://multiwebrtc.nodejitsu.com
 Run in your terminal
 
 ```bash 
-git clone git@github.com:dennismartensson/webrtc.io-demo.git
+git clone git@github.com:webRTC/webrtc.io-demo.git
 ```
 
 ```bash 
