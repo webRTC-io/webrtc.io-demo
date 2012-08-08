@@ -6,7 +6,6 @@
     "node": ">= 0.6.0"
   },
   "dependencies": {
-    "socket.io": "latest",
     "webrtc.io": "latest",
     "express": "2.5.1"
   },

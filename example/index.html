@@ -136,10 +136,6 @@
         
         var room = window.location.hash.slice(1);
 
-        if (room === '') {
-            room = Math.floor(Math.random()*rooms.length);
-            window.location.hash = room;
-        }
         //When connectiong to nodejitsu
         //rtc.connect("http://multiwebrtc.nodejitsu.com/", room);
 
