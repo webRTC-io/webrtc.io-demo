@@ -21,15 +21,6 @@ app.get('/webrtc.io.js', function(req, res) {
   res.sendfile(__dirname + '/webrtc.io.js');
 });
 
-function selectRoom(socket) {
-  for (var room in servers) {
-    console.log('***' + room);
-    if (io.sockets.clients(room).length < 4) {
-      socket.emit('send', room);
-    }
-    console.log(io.sockets.clients('' + room));
-  }
-}
 
 webRTC.rtc.on('connection', function(rtc) {
   //Client connected
