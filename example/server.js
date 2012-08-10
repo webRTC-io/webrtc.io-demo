@@ -21,46 +21,38 @@ app.get('/webrtc.io.js', function(req, res) {
 
 webRTC.rtc.on('connect', function(rtc) {
   //Client connected
-  console.log('connection');
+  console.log('connect');
+});
 
-  rtc.on('send answer', function() {
-    //answer sent
-    console.log('send answer');
-  });
+webRTC.rtc.on('send answer', function(rtc) {
+  //answer sent
+  console.log('send answer');
+});
 
-  rtc.on('disconnect', function() {
-    console.log('disconnect');
-  });
+webRTC.rtc.on('disconnect', function(rtc) {
+  console.log('disconnect');
+});
 
-  rtc.on('chat_msg', function(data, socket) {
-    var roomList = rtc.rooms[data.room] || [];
-    console.log(roomList);
+webRTC.rtc.on('chat_msg', function(data, socket) {
+  var roomList = webRTC.rtc.rooms[data.room] || [];
 
-    for (var i = 0; i<roomList.length; i++) {
-      
-      var socketId = roomList[i];
+  for (var i = 0; i < roomList.length; i++) {
+    var socketId = roomList[i];
 
-      console.log(socketId);
+    if (socketId !== socket.id) {
+      var soc = webRTC.rtc.getSocket(data.room, socketId);
 
-      if (socketId == socket.id) {
-        continue;
-      }
-      else {
-        var soc = rtc.getSocket(data.room, socketId);
-
-        if (soc) {
-          console.log('chat_msg send');
-          soc.send(JSON.stringify({
-            "eventName": "receive_chat_msg",
-            "messages": data.messages,
-            "color": data.color
-          }), function(error) {
-            if (error) {
-              console.log(error);
-            }
-          });
-        }
+      if (soc) {
+        soc.send(JSON.stringify({
+          "eventName": "receive_chat_msg",
+          "messages": data.messages,
+          "color": data.color
+        }), function(error) {
+          if (error) {
+            console.log(error);
+          }
+        });
       }
     }
-  });
+  }
 });
