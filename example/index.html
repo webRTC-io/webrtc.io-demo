@@ -121,6 +121,35 @@
         })
       }
 
+      function initChat() {
+        var input = document.getElementById("chatinput");
+        var room = window.location.hash.slice(1);
+        var color = "#"+((1<<24)*Math.random()|0).toString(16);
+
+        input.addEventListener('keydown', function(event) {
+          var key = event.which || event.keyCode;
+          if (key === 13) {
+            rtc._socket.send(JSON.stringify({
+              "eventName": "chat_msg",
+              "messages": input.value,
+              "room": room,
+              "color": color
+            }), function(error) {
+              if (error) {
+                console.log(error);
+              }
+            });
+            addToChat(input.value);
+            input.value = "";
+          }
+        }, false);
+        rtc.on('receive_chat_msg', function(data) {
+          console.log(data.color);
+          addToChat(data.messages, data.color.toString(16));
+        });
+      }
+
+
       function init() {
         if(PeerConnection){
           rtc.createStream({"video": true, "audio": true}, function(stream) {
@@ -155,6 +184,7 @@
         });
         initFullScreen();
         initNewRoom();
+        initChat();
       }
       
       window.onresize = function(event) {
