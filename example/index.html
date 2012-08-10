@@ -4,8 +4,7 @@
     <title>Example webrtc.io</title>
     <link type="text/css" href="/style.css" rel="stylesheet"></link>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/webrtc.io/webrtc.io.js"></script>
+    <script src="/webrtc.io.js"></script>
   </head>
   <body onload="init()">
     <div id="videos">
@@ -56,7 +55,6 @@
         var perColumn = Math.ceil(videos.length / perRow);
         var width = Math.floor((window.innerWidth) / perRow);
         var height = Math.floor((window.innerHeight - 190) / perColumn);
-        console.log(width, height);
         video.width = width;
         video.height = height;
         video.style.position = "absolute";
@@ -80,28 +78,11 @@
         }
       }
 
-      function initChat() {
-
-        var input = document.getElementById("chatinput");
-        input.addEventListener('keydown', function(event) {
-          var key = event.which || event.keyCode;
-          if (key === 13) {
-            rtc._socket.emit('chat msg', input.value);
-            addToChat(input.value);
-            input.value = "";
-          }
-        }, false);
-        rtc._socket.on('receive chat msg', function(data) {
-          console.log(data.color);
-          addToChat(data.msg, data.color.toString(16));
-        });
-      }
-
       function addToChat(msg, color) {
         var messages = document.getElementById('messages');
         msg = sanitize(msg);
         if (color) {
-          msg = '<span style="color: #' + color + '; padding-left: 15px">' + msg + '</span>';
+          msg = '<span style="color: ' + color + '; padding-left: 15px">' + msg + '</span>';
         } else {
           msg = '<strong style="padding-left: 15px">' + msg + '</strong>';
         }
@@ -140,9 +121,39 @@
         })
       }
 
+      function initChat() {
+        var input = document.getElementById("chatinput");
+        var room = window.location.hash.slice(1);
+        var color = "#"+((1<<24)*Math.random()|0).toString(16);
+
+        input.addEventListener('keydown', function(event) {
+          var key = event.which || event.keyCode;
+          if (key === 13) {
+            rtc._socket.send(JSON.stringify({
+              "eventName": "chat_msg",
+              "messages": input.value,
+              "room": room,
+              "color": color
+            }), function(error) {
+              if (error) {
+                console.log(error);
+              }
+            });
+            addToChat(input.value);
+            input.value = "";
+          }
+        }, false);
+        rtc.on('receive_chat_msg', function(data) {
+          console.log(data.color);
+          addToChat(data.messages, data.color.toString(16));
+        });
+      }
+
+
       function init() {
         if(PeerConnection){
-          rtc.createStream('you', function(stream) {
+          rtc.createStream({"video": true, "audio": true}, function(stream) {
+            document.getElementById('you').src = URL.createObjectURL(stream);
             videos.push(document.getElementById('you'));
             rtc.attachStream(stream, 'you');
             subdivideVideos();
@@ -154,15 +165,11 @@
         
         var room = window.location.hash.slice(1);
 
-        if (room === '') {
-            room = Math.floor(Math.random()*rooms.length);
-            window.location.hash = room;
-        }
         //When connectiong to nodejitsu
         //rtc.connect("http://multiwebrtc.nodejitsu.com/", room);
 
         //When using localhost
-        rtc.connect("http://localhost:8000/", room);
+        rtc.connect("ws://localhost:8001/", room);
 
         rtc.on('add remote stream', function(stream, socketId) {
           console.log("ADDING REMOTE STREAM...");
@@ -175,9 +182,9 @@
             console.log('remove ' + data);
             removeVideo(data);
         });
-        initChat();
         initFullScreen();
         initNewRoom();
+        initChat();
       }
       
       window.onresize = function(event) {

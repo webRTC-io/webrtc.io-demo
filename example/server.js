@@ -1,8 +1,5 @@
 var app = require('express').createServer();
-var webRTC = require('webrtc.io').listen(app);
-
-var colors = {};
-
+var webRTC = require('webrtc.io').listen(8001);
 
 //When connectiong to nodejitsu
 //app.listen(80);
@@ -17,38 +14,43 @@ app.get('/style.css', function(req, res) {
   res.sendfile(__dirname + '/style.css');
 });
 
-function selectRoom(socket) {
-  for (var room in servers) {
-    console.log('***' + room);
-    if (io.sockets.clients(room).length < 4) {
-      socket.emit('send', room);
-    }
-    console.log(io.sockets.clients('' + room));
-  }
-}
-
-webRTC.rtc.on('connection', function(rtc) {
-  //Client connected
-
-  rtc.on('send_answer', function() {
-    //answer sent
-  });
-
-  rtc.on('disconnect', function() {
-    //disconnect sent
-  });
+app.get('/webrtc.io.js', function(req, res) {
+  res.sendfile(__dirname + '/webrtc.io.js');
 });
 
-webRTC.sockets.on('connection', function(socket) {
-  console.log("connection received");
 
-  colors[socket.id] = Math.floor(Math.random()* 0xFFFFFF)
-  socket.on('chat msg', function(msg) {
-    console.log("chat received");
-    
-    socket.broadcast.emit('receive chat msg', {
-      msg: msg,
-      color: colors[socket.id]
-    });
-  });
+webRTC.rtc.on('connect', function(rtc) {
+  //Client connected
+});
+
+webRTC.rtc.on('send answer', function(rtc) {
+  //answer sent
+});
+
+webRTC.rtc.on('disconnect', function(rtc) {
+  //Client disconnect 
+});
+
+webRTC.rtc.on('chat_msg', function(data, socket) {
+  var roomList = webRTC.rtc.rooms[data.room] || [];
+
+  for (var i = 0; i < roomList.length; i++) {
+    var socketId = roomList[i];
+
+    if (socketId !== socket.id) {
+      var soc = webRTC.rtc.getSocket(data.room, socketId);
+
+      if (soc) {
+        soc.send(JSON.stringify({
+          "eventName": "receive_chat_msg",
+          "messages": data.messages,
+          "color": data.color
+        }), function(error) {
+          if (error) {
+            console.log(error);
+          }
+        });
+      }
+    }
+  }
 });
