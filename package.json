@@ -1,7 +1,7 @@
 {
   "name": "MultiWebRTC",
   "description": "Example of multi user webrtc",
-  "version": "0.0.1-31",
+  "version": "0.0.1-43",
   "engines": {
     "node": ">= 0.6.0"
   },

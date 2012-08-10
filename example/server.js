@@ -1,9 +1,6 @@
 var app = require('express').createServer();
 var webRTC = require('webrtc.io').listen(8001);
 
-//When connectiong to nodejitsu
-//app.listen(80);
-//When using localhost
 app.listen(8000);
 
 app.get('/', function(req, res) {
