@@ -1,1 +1,1 @@
-/Users/dennis/developing/hacker_school/webRTC/webRTC.io/webrtc.io-new/webrtc.io-client/lib/webrtc.io.js
+../node_modules/webrtc.io/node_modules/webrtc.io-client/lib/webrtc.io.js
