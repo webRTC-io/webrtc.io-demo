@@ -1,12 +1,12 @@
 {
   "name": "MultiWebRTC",
   "description": "Example of multi user webrtc",
-  "version": "0.0.1-43",
+  "version": "0.0.1-47",
   "engines": {
     "node": ">= 0.6.0"
   },
   "dependencies": {
-    "webrtc.io": "latest",
+    "webrtc.io": "0.0.0",
     "express": "2.5.1",
     "ws": "latest"
   },

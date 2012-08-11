@@ -1,7 +1,8 @@
 var app = require('express').createServer();
-var webRTC = require('webrtc.io').listen(8001);
-
 app.listen(8000);
+var webRTC = require('webrtc.io').listen(app);
+
+
 
 app.get('/', function(req, res) {
   res.sendfile(__dirname + '/index.html');
