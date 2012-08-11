@@ -131,9 +131,11 @@
           if (key === 13) {
             rtc._socket.send(JSON.stringify({
               "eventName": "chat_msg",
+              "data": {
               "messages": input.value,
               "room": room,
               "color": color
+              }
             }), function(error) {
               if (error) {
                 console.log(error);
