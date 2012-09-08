@@ -110,16 +110,12 @@ function initChat() {
       {
         var channel = rtc.peerConnections[peerConnection]._datachannels['chat']
         if(channel)
-        {
-          console.debug(channel)
-
           channel.send(JSON.stringify({"messages": input.value, "color": color}),
           function(error)
           {
             if(error)
               console.log(error);
           });
-        }
       }
 
       addToChat(input.value);
@@ -127,35 +123,13 @@ function initChat() {
     }
   }, false);
 
-  rtc.on('peer connection opened', function(peerId, pc)
+  rtc.on('peer connection opened', function(pc)
   {
-/*
-    function getId(sdp)
-    {
-      var result = sdp.toSdp().replace(/(\r\n|\n|\r)/gm, '\n')
-
-      var patt1=new RegExp("o=.+");
-      var result = patt1.exec(result)
-
-      console.log(result[0])
-      return result[0]
-    }
-
-    pc._setId(getId(pc.localDescription))
-    pc._setPeerId(getId(pc.remoteDescription))
-*/
-
-    console.log(1234+" -> "+peerId)
-
-    pc._setId(1234)
-    pc._setPeerId(peerId)
-
     var channel = pc.createDataChannel('chat')
 	    channel.onmessage = function(message)
 	    {
 	      var data = JSON.parse(message.data)
 
-	      console.log(data.color);
 	      addToChat(data.messages, data.color.toString(16));
 	    }
   });
