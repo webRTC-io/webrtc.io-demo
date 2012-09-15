@@ -147,10 +147,7 @@ function initChat() {
     initDataChannel(pc, channel)
   });
 
-  rtc.on('add remote datachannel', function(channel)
-  {
-    initDataChannel(pc, channel)
-  });
+  rtc.on('add remote datachannel', initDataChannel);
 }
 
 
