@@ -123,15 +123,33 @@ function initChat() {
     }
   }, false);
 
+  function initDataChannel(pc, channel)
+  {
+    channel.onmessage = function(message)
+    {
+      var data = JSON.parse(message.data)
+
+      addToChat(data.messages, data.color.toString(16))
+    }
+    channel.onclose = function()
+    {
+      delete pc._datachannels[channel.label]
+    }
+
+    pc._datachannels = {}
+    pc._datachannels[channel.label] = channel
+  };
+
   rtc.on('peer connection opened', function(pc)
   {
     var channel = pc.createDataChannel('chat')
-	    channel.onmessage = function(message)
-	    {
-	      var data = JSON.parse(message.data)
 
-	      addToChat(data.messages, data.color.toString(16));
-	    }
+    initDataChannel(pc, channel)
+  });
+
+  rtc.on('add remote datachannel', function(channel)
+  {
+    initDataChannel(pc, channel)
   });
 }
 
