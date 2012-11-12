@@ -1,4 +1,3 @@
-
 <html>
   <head>
     <title>Example webrtc.io</title>
@@ -22,7 +21,7 @@
     <script>
       var videos = [];
       var rooms = [1,2,3,4,5];
-      var PeerConnection = window.PeerConnection || window.webkitPeerConnection00;
+      var PeerConnection = window.PeerConnection || window.webkitPeerConnection00 || window.webkitRTCPeerConnection;
 
       function getNumPerRow() {
         var len = videos.length;
