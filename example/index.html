@@ -156,7 +156,7 @@
           rtc.createStream({"video": true, "audio": true}, function(stream) {
             document.getElementById('you').src = URL.createObjectURL(stream);
             videos.push(document.getElementById('you'));
-            rtc.attachStream(stream, 'you');
+            //rtc.attachStream(stream, 'you');
             subdivideVideos();
           });
         }else {
