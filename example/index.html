@@ -93,14 +93,14 @@
         return msg.replace(/</g, '&lt;');
       }
 
-      function initFullScreen() { 
+      function initFullScreen() {
         var button = document.getElementById("fullscreen");
         button.addEventListener('click', function(event) {
-          var elem = document.getElementById("videos"); 
-          //show full screen 
+          var elem = document.getElementById("videos");
+          //show full screen
           elem.webkitRequestFullScreen();
         });
-      } 
+      }
 
       function initNewRoom() {
         var button = document.getElementById("newRoom");
@@ -114,7 +114,7 @@
               var rnum = Math.floor(Math.random() * chars.length);
               randomstring += chars.substring(rnum,rnum+1);
             }
-            
+
             window.location.hash = randomstring;
             location.reload();
         })
@@ -163,7 +163,7 @@
           alert('Your browser is not supported or you have to turn on flags. In chrome you go to chrome://flags and turn on Enable PeerConnection remember to restart chrome');
         }
 
-        
+
         var room = window.location.hash.slice(1);
 
         //When using localhost
@@ -184,7 +184,7 @@
         initNewRoom();
         initChat();
       }
-      
+
       window.onresize = function(event) {
         subdivideVideos();
       };
