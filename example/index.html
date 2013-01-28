@@ -93,14 +93,14 @@
         return msg.replace(/</g, '&lt;');
       }
 
-      function initFullScreen() { 
+      function initFullScreen() {
         var button = document.getElementById("fullscreen");
         button.addEventListener('click', function(event) {
-          var elem = document.getElementById("videos"); 
-          //show full screen 
+          var elem = document.getElementById("videos");
+          //show full screen
           elem.webkitRequestFullScreen();
         });
-      } 
+      }
 
       function initNewRoom() {
         var button = document.getElementById("newRoom");
@@ -114,13 +114,47 @@
               var rnum = Math.floor(Math.random() * chars.length);
               randomstring += chars.substring(rnum,rnum+1);
             }
-            
+
             window.location.hash = randomstring;
             location.reload();
         })
       }
 
+
+      var websocketChat = {
+        send: function (message) {
+          rtc._socket.send(message);
+        },
+        recv: function (message) {
+          return message;
+        },
+        event: 'receive_chat_msg'
+      };
+
+      var dataChannelChat = {
+        send: function (message) {
+          for (var connection in rtc.dataChannels) {
+            var channel = rtc.dataChannels[connection];
+            channel.send(message);
+          }
+        },
+        recv:  function (channel, message) {
+          return JSON.parse(message).data;
+        },
+        event: 'data stream data'
+      };
+
       function initChat() {
+        var chat;
+
+        if (rtc.dataChannelSupport) {
+          console.log('initializing data channel chat');
+          chat = dataChannelChat;
+        } else {
+          console.log('initializing websocket chat');
+          chat = websocketChat;
+        }
+
         var input = document.getElementById("chatinput");
         var room = window.location.hash.slice(1);
         var color = "#"+((1<<24)*Math.random()|0).toString(16);
@@ -128,23 +162,20 @@
         input.addEventListener('keydown', function(event) {
           var key = event.which || event.keyCode;
           if (key === 13) {
-            rtc._socket.send(JSON.stringify({
+            chat.send(JSON.stringify({
               "eventName": "chat_msg",
               "data": {
               "messages": input.value,
               "room": room,
               "color": color
               }
-            }), function(error) {
-              if (error) {
-                console.log(error);
-              }
-            });
+            }));
             addToChat(input.value);
             input.value = "";
           }
         }, false);
-        rtc.on('receive_chat_msg', function(data) {
+        rtc.on(chat.event, function() {
+          data = chat.recv.apply(this, arguments);
           console.log(data.color);
           addToChat(data.messages, data.color.toString(16));
         });
@@ -163,7 +194,7 @@
           alert('Your browser is not supported or you have to turn on flags. In chrome you go to chrome://flags and turn on Enable PeerConnection remember to restart chrome');
         }
 
-        
+
         var room = window.location.hash.slice(1);
 
         //When using localhost
@@ -184,7 +215,7 @@
         initNewRoom();
         initChat();
       }
-      
+
       window.onresize = function(event) {
         subdivideVideos();
       };
