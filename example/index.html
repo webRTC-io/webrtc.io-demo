@@ -128,7 +128,7 @@
         recv: function (message) {
           return message;
         },
-        event: 'receive_chat_msg',
+        event: 'receive_chat_msg'
       };
 
       var dataChannelChat = {
@@ -141,7 +141,7 @@
         recv:  function (channel, message) {
           return JSON.parse(message).data;
         },
-        event: 'data stream data',
+        event: 'data stream data'
       };
 
       function initChat() {
