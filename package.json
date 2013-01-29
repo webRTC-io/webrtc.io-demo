@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "webrtc.io": "latest",
+    "webrtc.io-client": "latest",
     "express": "2.5.1",
     "ws": "latest"
   },
