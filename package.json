@@ -8,7 +8,7 @@
   "dependencies": {
     "webrtc.io": "latest",
     "webrtc.io-client": "latest",
-    "express": "2.5.1",
+    "express": "3.1.0",
     "ws": "latest"
   },
   "subdomain": "MultiWebRTC",
