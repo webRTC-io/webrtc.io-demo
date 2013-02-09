@@ -1,7 +1,7 @@
 #webrtc.io-demo
 ==============
 
-You can have a look at the demo on http://multiwebrtc.nodejitsu.com
+You can have a look at the [demo](bit.ly/webRTC)
 
 ##Instructions on how to setup the demo:
 
