@@ -1,1 +1,0 @@
-../node_modules/webrtc.io-client/lib/webrtc.io.js
