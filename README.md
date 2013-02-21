@@ -1,7 +1,7 @@
 #webrtc.io-demo
 ==============
 
-You can have a look at the [demo](http://bit.ly/webrtcio)
+You can have a look at the [demo](http://webrtc.dennis.is/)
 
 ##Instructions on how to setup the demo:
 
