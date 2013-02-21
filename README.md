@@ -20,7 +20,7 @@ npm install
 ```
 
 ```bash 
-cd example
+cd site
 ```
 
 ```bash 
