@@ -155,7 +155,7 @@ function initChat() {
     }
   }, false);
   rtc.on(chat.event, function() {
-    data = chat.recv.apply(this, arguments);
+    var data = chat.recv.apply(this, arguments);
     console.log(data.color);
     addToChat(data.messages, data.color.toString(16));
   });
