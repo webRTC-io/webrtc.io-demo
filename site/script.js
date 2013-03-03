@@ -1,5 +1,4 @@
 var videos = [];
-var rooms = [1, 2, 3, 4, 5];
 var PeerConnection = window.PeerConnection || window.webkitPeerConnection00 || window.webkitRTCPeerConnection;
 
 function getNumPerRow() {
