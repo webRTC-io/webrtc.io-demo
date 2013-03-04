@@ -1,5 +1,4 @@
 var videos = [];
-var rooms = [1, 2, 3, 4, 5];
 var PeerConnection = window.PeerConnection || window.webkitPeerConnection00 || window.webkitRTCPeerConnection;
 
 function getNumPerRow() {
@@ -155,7 +154,7 @@ function initChat() {
     }
   }, false);
   rtc.on(chat.event, function() {
-    data = chat.recv.apply(this, arguments);
+    var data = chat.recv.apply(this, arguments);
     console.log(data.color);
     addToChat(data.messages, data.color.toString(16));
   });
