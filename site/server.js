@@ -27,19 +27,6 @@ app.get('/webrtc.io.js', function(req, res) {
   res.sendfile(__dirname + '/webrtc.io.js');
 });
 
-
-webRTC.rtc.on('connect', function(rtc) {
-  //Client connected
-});
-
-webRTC.rtc.on('send answer', function(rtc) {
-  //answer sent
-});
-
-webRTC.rtc.on('disconnect', function(rtc) {
-  //Client disconnect 
-});
-
 webRTC.rtc.on('chat_msg', function(data, socket) {
   var roomList = webRTC.rtc.rooms[data.room] || [];
 

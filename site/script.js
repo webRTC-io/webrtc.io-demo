@@ -1,5 +1,5 @@
 var videos = [];
-var PeerConnection = window.PeerConnection || window.webkitPeerConnection00 || window.webkitRTCPeerConnection;
+var PeerConnection = window.PeerConnection || window.webkitPeerConnection00 || window.webkitRTCPeerConnection || window.mozRTCPeerConnection || window.RTCPeerConnection;
 
 function getNumPerRow() {
   var len = videos.length;
@@ -164,10 +164,11 @@ function initChat() {
 function init() {
   if(PeerConnection) {
     rtc.createStream({
-      "video": true,
+      "video": {"mandatory": {}, "optional": []},
       "audio": true
     }, function(stream) {
       document.getElementById('you').src = URL.createObjectURL(stream);
+      document.getElementById('you').play();
       videos.push(document.getElementById('you'));
       //rtc.attachStream(stream, 'you');
       subdivideVideos();
