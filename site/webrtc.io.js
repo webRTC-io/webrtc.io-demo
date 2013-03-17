@@ -474,10 +474,9 @@ if (navigator.webkitGetUserMedia) {
 
 function preferOpus(sdp) {
   var sdpLines = sdp.split('\r\n');
-
+  var mLineIndex = null;
   // Search for m line.
   for (var i = 0; i < sdpLines.length; i++) {
-    var mLineIndex = null;
     if (sdpLines[i].search('m=audio') !== -1) {
       mLineIndex = i;
       break;
@@ -508,7 +507,7 @@ function extractSdp(sdpLine, pattern) {
 
 function setDefaultCodec(mLine, payload) {
   var elements = mLine.split(' ');
-  var newLine = new Array();
+  var newLine = [];
   var index = 0;
   for (var i = 0; i < elements.length; i++) {
     if (index === 3) // Format of media starts from the fourth.
