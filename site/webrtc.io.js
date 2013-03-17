@@ -87,7 +87,7 @@ if (navigator.webkitGetUserMedia) {
         "url": "stun:stun.l.google.com:19302"
       }]
     };
-  }
+  };
 
 
   // Reference to the lone PeerConnection instance.
@@ -117,7 +117,7 @@ if (navigator.webkitGetUserMedia) {
     "optional": [{
       "DtlsSrtpKeyAgreement": true
     }]
-  }
+  };
 
 
   // check whether data channel is supported.
@@ -282,7 +282,7 @@ if (navigator.webkitGetUserMedia) {
     };
     // temporary measure to remove Moz* constraints in Chrome
     if (navigator.webkitGetUserMedia) {
-      for (prop in constraints.mandatory) {
+      for (var prop in constraints.mandatory) {
         if (prop.indexOf("Moz") != -1) {
           delete constraints.mandatory[prop];
         }
@@ -477,17 +477,18 @@ function preferOpus(sdp) {
 
   // Search for m line.
   for (var i = 0; i < sdpLines.length; i++) {
+    var mLineIndex = null;
     if (sdpLines[i].search('m=audio') !== -1) {
-      var mLineIndex = i;
+      mLineIndex = i;
       break;
     }
   }
   if (mLineIndex === null) return sdp;
 
   // If Opus is available, set it as the default in m line.
-  for (var i = 0; i < sdpLines.length; i++) {
-    if (sdpLines[i].search('opus/48000') !== -1) {
-      var opusPayload = extractSdp(sdpLines[i], /:(\d+) opus\/48000/i);
+  for (var j = 0; j < sdpLines.length; j++) {
+    if (sdpLines[j].search('opus/48000') !== -1) {
+      var opusPayload = extractSdp(sdpLines[j], /:(\d+) opus\/48000/i);
       if (opusPayload) sdpLines[mLineIndex] = setDefaultCodec(sdpLines[mLineIndex], opusPayload);
       break;
     }
