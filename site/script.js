@@ -135,8 +135,21 @@ function initChat() {
   }
 
   var input = document.getElementById("chatinput");
+  var toggleHideShow = document.getElementById("hideShowMessages");
   var room = window.location.hash.slice(1);
   var color = "#" + ((1 << 24) * Math.random() | 0).toString(16);
+
+  toggleHideShow.addEventListener('click', function() {
+    var element = document.getElementById("messages");
+
+    if(element.style.display === "block") {
+      element.style.display = "none";
+    }
+    else {
+      element.style.display = "block";
+    }
+
+  });
 
   input.addEventListener('keydown', function(event) {
     var key = event.which || event.keyCode;
@@ -169,9 +182,9 @@ function init() {
     }, function(stream) {
       document.getElementById('you').src = URL.createObjectURL(stream);
       document.getElementById('you').play();
-      videos.push(document.getElementById('you'));
+      //videos.push(document.getElementById('you'));
       //rtc.attachStream(stream, 'you');
-      subdivideVideos();
+      //subdivideVideos();
     });
   } else {
     alert('Your browser is not supported or you have to turn on flags. In chrome you go to chrome://flags and turn on Enable PeerConnection remember to restart chrome');
