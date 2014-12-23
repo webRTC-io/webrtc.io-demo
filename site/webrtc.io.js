@@ -143,7 +143,7 @@ if (navigator.webkitGetUserMedia) {
    */
   rtc.connect = function(server, room) {
     room = room || ""; // by default, join a room called the blank string
-    rtc._socket = new WebSocket(server);
+    rtc._socket = new WebSocket(server); // The page at 'https://example.com/#WeVgDmCt' was loaded over HTTPS, but ran insecure content from 'ws://example.com/': this content should also be loaded over HTTPS.
 
     rtc._socket.onopen = function() {
 
