@@ -1,10 +1,11 @@
-var app = require('express').createServer();
-var webRTC = require('webrtc.io').listen(8001);
+var app = require('express')();
+var server = require('http').createServer(app);
+var webRTC = require('webrtc.io').listen(server);
 
-//When connectiong to nodejitsu
-//app.listen(80);
-//When using localhost
-app.listen(8000);
+var port = process.env.PORT || 8080;
+server.listen(port);
+
+
 
 app.get('/', function(req, res) {
   res.sendfile(__dirname + '/index.html');
@@ -14,21 +15,16 @@ app.get('/style.css', function(req, res) {
   res.sendfile(__dirname + '/style.css');
 });
 
+app.get('/fullscrean.png', function(req, res) {
+  res.sendfile(__dirname + '/fullscrean.png');
+});
+
+app.get('/script.js', function(req, res) {
+  res.sendfile(__dirname + '/script.js');
+});
+
 app.get('/webrtc.io.js', function(req, res) {
   res.sendfile(__dirname + '/webrtc.io.js');
-});
-
-
-webRTC.rtc.on('connect', function(rtc) {
-  //Client connected
-});
-
-webRTC.rtc.on('send answer', function(rtc) {
-  //answer sent
-});
-
-webRTC.rtc.on('disconnect', function(rtc) {
-  //Client disconnect 
 });
 
 webRTC.rtc.on('chat_msg', function(data, socket) {
@@ -38,13 +34,15 @@ webRTC.rtc.on('chat_msg', function(data, socket) {
     var socketId = roomList[i];
 
     if (socketId !== socket.id) {
-      var soc = webRTC.rtc.getSocket(data.room, socketId);
+      var soc = webRTC.rtc.getSocket(socketId);
 
       if (soc) {
         soc.send(JSON.stringify({
           "eventName": "receive_chat_msg",
-          "messages": data.messages,
-          "color": data.color
+          "data": {
+            "messages": data.messages,
+            "color": data.color
+          }
         }), function(error) {
           if (error) {
             console.log(error);
